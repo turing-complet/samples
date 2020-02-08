@@ -34,7 +34,36 @@ namespace diff
         {
             populateGrid();
             string lcs = traceback();
-            Console.WriteLine(lcs); // getting "ana", should be "aana"
+            Console.WriteLine($"LCS = {lcs}");
+            var result = traceResult();
+            result.Apply(new string(left));
+        }
+
+        public DiffResult traceResult() 
+        { 
+            var result = new DiffResult();
+            traceResult(result, left.Length-1, right.Length-1);
+            return result;
+        }
+
+        private void traceResult(DiffResult result, int i, int j)
+        {
+            if (i > 0 && j > 0 && tally[i, j].IsMatch)
+            {
+                traceResult(result, i-1, j-1);
+                return;
+            }
+
+            if (i > 0 && (j == 0 || tally[i-1, j].LocalMax > tally[i, j-1].LocalMax))
+            {
+                traceResult(result, i-1, j);
+                result.Deletion(left[i].ToString(), i);
+            }
+            else if (j > 0 && (i == 0 || tally[i-1, j].LocalMax <= tally[i, j-1].LocalMax)) 
+            {
+                traceResult(result, i, j-1);
+                result.Addition(right[j].ToString(), i);
+            }
         }
 
         private string traceback()
@@ -53,7 +82,7 @@ namespace diff
                 return edgeCaseMatch(new string(left), new string(right), i);
             }
 
-            if (left[i] == right[j]) return _tracebackFrom(i-1, j-1) + left[i];
+            if (tally[i, j].IsMatch) return _tracebackFrom(i-1, j-1) + left[i];
             if (tally[i-1, j].LocalMax > tally[i, j-1].LocalMax)
             {
                 return _tracebackFrom(i-1, j);
@@ -62,7 +91,7 @@ namespace diff
             }
         }
 
-        private string edgeCaseMatch(string first, string other, int index)
+        private static string edgeCaseMatch(string first, string other, int index)
         {
             if (first.Substring(0, Math.Max(1, index)).Contains(other[0]))
             {
@@ -106,11 +135,6 @@ namespace diff
                 areaMax(row-1, col),
                 areaMax(row, col-1)
             );
-        }
-
-        public DiffResult Result() 
-        { 
-            return new DiffResult();
         }
 
     }
