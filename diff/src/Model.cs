@@ -58,15 +58,16 @@ namespace diff
 
         public void Print()
         {
+            var enumerator = Changes.GetEnumerator();
             if (!Changes.Any())
             {
                 Console.WriteLine("No differences found");
                 return;
             }
 
-            while (Changes.Any())
+            while (enumerator.MoveNext())
             {
-                var item = Changes.Dequeue();
+                var item = enumerator.Current;
                 item.Print();
             }
         }

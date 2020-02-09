@@ -17,4 +17,10 @@
     <ProjectReference Include="..\src\diff.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="*.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>  
+  </ItemGroup>
+
 </Project>

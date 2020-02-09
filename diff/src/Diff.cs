@@ -15,28 +15,23 @@ namespace diff
         public int LocalMax { get; set;}
     }
 
-    // works on string, should abstract and implement for files, other types?
     public class Diff
     {
-        private char[] left;
-        private char[] right;
+        protected string[] left;
+        protected string[] right;
 
-        private Tally[,] tally;
-
-        public Diff(string left, string right)
-        {
-            this.left = left.ToCharArray();
-            this.right = right.ToCharArray();
-            tally = new Tally[left.Length, right.Length];
-        }
+        protected Tally[,] tally;
 
         public DiffResult Compute()
         {
+            Initialize();
             populateGrid();
             string lcs = traceback();
             Console.WriteLine($"LCS = {lcs}");
             return traceResult();
         }
+
+        protected virtual void Initialize() {}
 
         public DiffResult traceResult() 
         { 
@@ -52,7 +47,7 @@ namespace diff
             if (i >= 0 && j >= 0 && tally[i, j].IsMatch)
             {
                 traceResult(result, i-1, j-1);
-                result.Unchanged(left[i].ToString());
+                result.Unchanged(left[i]);
                 return;
             }
 
@@ -62,20 +57,20 @@ namespace diff
             if (i > 0 && (j == 0 || tally[i-1, j].LocalMax > tally[i, j-1].LocalMax))
             {
                 traceResult(result, i-1, j);
-                result.Deletion(left[i].ToString());
+                result.Deletion(left[i]);
             }
             else if (j > 0 && (i == 0 || tally[i-1, j].LocalMax <= tally[i, j-1].LocalMax)) 
             {
                 traceResult(result, i, j-1);
-                result.Addition(right[j].ToString());
+                result.Addition(right[j]);
             }
             else if (i == 0 && (j == 0 || tally[0, j].LocalMax > tally[i, j-1].LocalMax))
             {
-                result.Deletion(left[0].ToString());
+                result.Deletion(left[0]);
             }
             else if (j == 0 && (i == 0 || tally[i-1, j].LocalMax <= tally[i, 0].LocalMax))
             {
-                result.Addition(right[0].ToString());
+                result.Addition(right[0]);
             }
         }
 
@@ -88,11 +83,11 @@ namespace diff
         {
             if (i == 0)
             {
-                return edgeCaseMatch(new string(right), new string(left), j);
+                return edgeCaseMatch(string.Join("", right), string.Join("", left), j);
             }
             if (j == 0)
             {
-                return edgeCaseMatch(new string(left), new string(right), i);
+                return edgeCaseMatch(string.Join("", left), string.Join("", right), i);
             }
 
             if (tally[i, j].IsMatch) return _tracebackFrom(i-1, j-1) + left[i];
