@@ -33,7 +33,7 @@ namespace diff
         {
             Initialize();
             populateGrid();
-            return traceback();
+            return traceback(left.Length-1, right.Length-1);
         }
 
         protected virtual void Initialize() {}
@@ -47,8 +47,6 @@ namespace diff
 
         private void traceResult(DiffResult result, int i, int j)
         {
-            if (i < 0 && j < 0) return;
-
             if (i >= 0 && j >= 0 && tally[i, j].IsMatch)
             {
                 traceResult(result, i-1, j-1);
@@ -74,12 +72,7 @@ namespace diff
             return cmp ? 1 : -1;
         }
 
-        private string traceback()
-        {
-            return _tracebackFrom(left.Length-1, right.Length-1);
-        }
-
-        private string _tracebackFrom(int i, int j)
+        private string traceback(int i, int j)
         {
             if (i == 0)
             {
@@ -90,12 +83,12 @@ namespace diff
                 return edgeCaseMatch(string.Join("", left), string.Join("", right), i);
             }
 
-            if (tally[i, j].IsMatch) return _tracebackFrom(i-1, j-1) + left[i];
+            if (tally[i, j].IsMatch) return traceback(i-1, j-1) + left[i];
             if (tally[i-1, j].LocalMax > tally[i, j-1].LocalMax)
             {
-                return _tracebackFrom(i-1, j);
+                return traceback(i-1, j);
             } else {
-                return _tracebackFrom(i, j-1);
+                return traceback(i, j-1);
             }
         }
 
