@@ -29,9 +29,16 @@ namespace diff
             return traceResult();
         }
 
+        public string LCS()
+        {
+            Initialize();
+            populateGrid();
+            return traceback();
+        }
+
         protected virtual void Initialize() {}
 
-        public DiffResult traceResult() 
+        private DiffResult traceResult() 
         { 
             var result = new DiffResult();
             traceResult(result, left.Length-1, right.Length-1);
@@ -49,27 +56,22 @@ namespace diff
                 return;
             }
 
-            i = Math.Max(0, i);
-            j = Math.Max(0, j);
-
-            if (i > 0 && (j == 0 || tally[i-1, j].LocalMax > tally[i, j-1].LocalMax))
-            {
-                traceResult(result, i-1, j);
-                result.Deletion(left[i]);
-            }
-            else if (j > 0 && (i == 0 || tally[i-1, j].LocalMax <= tally[i, j-1].LocalMax)) 
+            if (j >= 0 && (i == -1 || compareNext(i, j) > 0)) 
             {
                 traceResult(result, i, j-1);
                 result.Addition(right[j]);
             }
-            else if (i == 0 && (j == 0 || tally[0, j].LocalMax > tally[i, j-1].LocalMax))
+            else if (i >= 0 && (j == -1 || compareNext(i, j) < 0))
             {
-                result.Deletion(left[0]);
+                traceResult(result, i-1, j);
+                result.Deletion(left[i]);
             }
-            else if (j == 0 && (i == 0 || tally[i-1, j].LocalMax <= tally[i, 0].LocalMax))
-            {
-                result.Addition(right[0]);
-            }
+        }
+
+        private int compareNext(int i, int j)
+        {
+            bool cmp = tally[Math.Max(0, i-1), j].LocalMax < tally[i, Math.Max(0, j-1)].LocalMax;
+            return cmp ? 1 : -1;
         }
 
         private string traceback()
