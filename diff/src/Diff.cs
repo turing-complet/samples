@@ -26,8 +26,6 @@ namespace diff
         {
             Initialize();
             populateGrid();
-            string lcs = traceback();
-            Console.WriteLine($"LCS = {lcs}");
             return traceResult();
         }
 

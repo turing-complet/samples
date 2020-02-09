@@ -8,11 +8,12 @@ namespace diff
     {
         static void Main(string[] args)
         {
-            // var longestCommon = LCS(first, second);
-
-            string first = "banana";
-            string second = "atana";
-            var diff = new StringDiff(first, second);
+            if (args.Length != 2)
+            {
+                Console.WriteLine("WRONG");
+                return;
+            }
+            var diff = new FileDiff(args[0], args[1]);
             var result = diff.Compute();
             result.Print();
         }
