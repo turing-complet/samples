@@ -39,9 +39,20 @@ namespace diff
     {
         public Queue<LineItem> Changes { get; set; } = new Queue<LineItem>();
 
-        public void Addition(string text) => Changes.Enqueue(new LineItem { Change = Edit.Add, Text = text });
+        public int Additions { get; set;}
+        public int Deletions { get; set;}
 
-        public void Deletion(string text) => Changes.Enqueue(new LineItem { Change = Edit.Remove, Text = text });
+        public void Addition(string text)
+        {
+            Changes.Enqueue(new LineItem { Change = Edit.Add, Text = text });
+            Additions++;
+        }
+
+        public void Deletion(string text)
+        {
+            Changes.Enqueue(new LineItem { Change = Edit.Remove, Text = text });
+            Deletions++;
+        }
 
         public void Unchanged(string text) => Changes.Enqueue(new LineItem { Change = Edit.None, Text = text });
 

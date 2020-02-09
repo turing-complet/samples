@@ -30,13 +30,12 @@ namespace diff
             tally = new Tally[left.Length, right.Length];
         }
 
-        public void Compute()
+        public DiffResult Compute()
         {
             populateGrid();
             string lcs = traceback();
             Console.WriteLine($"LCS = {lcs}");
-            var result = traceResult();
-            result.Print();
+            return traceResult();
         }
 
         public DiffResult traceResult() 
@@ -48,12 +47,17 @@ namespace diff
 
         private void traceResult(DiffResult result, int i, int j)
         {
-            if (i > 0 && j > 0 && tally[i, j].IsMatch)
+            if (i < 0 && j < 0) return;
+
+            if (i >= 0 && j >= 0 && tally[i, j].IsMatch)
             {
                 traceResult(result, i-1, j-1);
                 result.Unchanged(left[i].ToString());
                 return;
             }
+
+            i = Math.Max(0, i);
+            j = Math.Max(0, j);
 
             if (i > 0 && (j == 0 || tally[i-1, j].LocalMax > tally[i, j-1].LocalMax))
             {
@@ -64,6 +68,14 @@ namespace diff
             {
                 traceResult(result, i, j-1);
                 result.Addition(right[j].ToString());
+            }
+            else if (i == 0 && (j == 0 || tally[0, j].LocalMax > tally[i, j-1].LocalMax))
+            {
+                result.Deletion(left[0].ToString());
+            }
+            else if (j == 0 && (i == 0 || tally[i-1, j].LocalMax <= tally[i, 0].LocalMax))
+            {
+                result.Addition(right[0].ToString());
             }
         }
 

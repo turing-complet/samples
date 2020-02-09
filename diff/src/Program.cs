@@ -16,7 +16,8 @@ namespace diff
             string first = "banana";
             string second = "atana";
             var diff = new Diff(first, second);
-            diff.Compute();
+            var result = diff.Compute();
+            result.Print();
         }
 
         static string LCS(string versionOne, string versionTwo)
