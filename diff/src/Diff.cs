@@ -36,7 +36,7 @@ namespace diff
             string lcs = traceback();
             Console.WriteLine($"LCS = {lcs}");
             var result = traceResult();
-            result.Apply(new string(left));
+            result.Print();
         }
 
         public DiffResult traceResult() 
@@ -51,18 +51,19 @@ namespace diff
             if (i > 0 && j > 0 && tally[i, j].IsMatch)
             {
                 traceResult(result, i-1, j-1);
+                result.Unchanged(left[i].ToString());
                 return;
             }
 
             if (i > 0 && (j == 0 || tally[i-1, j].LocalMax > tally[i, j-1].LocalMax))
             {
                 traceResult(result, i-1, j);
-                result.Deletion(left[i].ToString(), i);
+                result.Deletion(left[i].ToString());
             }
             else if (j > 0 && (i == 0 || tally[i-1, j].LocalMax <= tally[i, j-1].LocalMax)) 
             {
                 traceResult(result, i, j-1);
-                result.Addition(right[j].ToString(), i);
+                result.Addition(right[j].ToString());
             }
         }
 
