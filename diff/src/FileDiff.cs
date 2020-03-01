@@ -20,7 +20,7 @@ namespace diff
         {
             this.left = hashLines(fileOne);
             this.right = hashLines(fileTwo);
-            this.tally = new Tally[this.left.Length, this.right.Length];
+            this.tally = new Tally[this.left.Length + 1, this.right.Length + 1];
         }
 
         private string[] hashLines(string fileName)

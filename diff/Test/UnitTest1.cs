@@ -19,6 +19,14 @@ namespace Test
         }
 
         [TestMethod]
+        public void EditDistance()
+        {
+            var diff = new StringDiff("intention", "execution");
+            int dist = diff.EditDistance();
+            Assert.AreEqual(5, dist);
+        }
+
+        [TestMethod]
         public void DiffBanana()
         {
             var diff = new StringDiff("banana", "atana");

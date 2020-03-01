@@ -14,11 +14,6 @@ would not be helping to
 compress the size of the
 changes.
 
-This paragraph contains
-text that is outdated.
-It will be deleted in the
-near future.
-
 It is important to spell
 check this dokument. On
 the other hand, a

@@ -10,7 +10,7 @@ namespace diff
         {
             this.left = left.ToCharArray().Select(c => c.ToString()).ToArray();
             this.right = right.ToCharArray().Select(c => c.ToString()).ToArray();
-            tally = new Tally[left.Length, right.Length];
+            tally = new Tally[left.Length + 1, right.Length + 1];
         }
     }
 }
