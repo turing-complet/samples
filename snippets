@@ -1,0 +1,5 @@
+on linux receiving end (run this first)
+nc -l -p 21001 > test.pdf   
+
+on windows sending end
+nc $UBUNTU_IP_ADDR 21001 < test.pdf
