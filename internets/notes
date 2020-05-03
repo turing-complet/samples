@@ -1,0 +1,9 @@
+
+sudo (which scapy)
+
+>>> %run traceroute.py google.com
+
+conf.color_theme = RastaTheme()
+
+pkt = IP(ttl=3, dst='google.com')/ICMP()
+pkt.pdfdump(layer_shift=1)

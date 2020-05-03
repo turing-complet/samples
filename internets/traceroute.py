@@ -1,14 +1,15 @@
 from scapy.all import *
-from scapy.layers.inet import IP
+from scapy.layers.inet import IP, ICMP
 import sys
 import socket
 
-DEST = ''
+DEST = '216.58.217.46'
 
 def probe(max_hops):
-    pkt = IP(ttl=max_hops, dst=DEST)
-    resp = sr(pkt)
+    pkt = IP(ttl=max_hops, dst=DEST)/ICMP()
+    resp = sr(pkt, verbose=0)
     resp[0].show()
+    return resp
 
 
 if __name__ == '__main__':
@@ -18,5 +19,5 @@ if __name__ == '__main__':
     DEST = addr
     print(f'Traceroute to {host} ({addr})')
     
-    for i in range(12):
+    for i in range(10):
         probe(i)

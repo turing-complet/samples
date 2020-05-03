@@ -112,12 +112,7 @@ def anon(improver):
         return 1 if n == 0 else n * improver(improver)(n-1)
     return fun
 
-def temp(improver):
-    return improver(improver)
-
-# same thing
-fx = temp(anon)
-gx = anon(anon)
+fx = anon(anon)
 
 if __name__ == "__main__":
     import doctest
