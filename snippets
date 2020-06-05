@@ -3,3 +3,8 @@ nc -l -p 21001 > test.pdf
 
 on windows sending end
 nc $UBUNTU_IP_ADDR 21001 < test.pdf
+
+python count without collections:
+x = [1,1,1,2,2,3]
+[{y : sum([1 for q in x if q == y])} for y in set(x)]
+
