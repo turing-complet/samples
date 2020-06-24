@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from game import seed, next_gen
+from game import next_gen
+from patterns import random, gun
 
 
-g = seed(80)
+# g = random.seed(80)
+g = gun.gun()
 
 
 def generate(n):
