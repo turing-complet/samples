@@ -1,19 +1,6 @@
 import numpy as np
 from time import sleep
-
-
-def seed(n, p=0.5):
-    """
-    Start the game of life.
-
-    Parameters:
-        n (int): the size of the grid
-        p (float): Optional - probability of 0
-    Returns:
-        np.array with a layer of padding, initialized randomly
-    """
-    frame = np.random.choice(a=[0, 1], size=(n, n), p=[p, 1 - p])
-    return np.pad(frame, pad_width=1)
+from patterns import random, gun
 
 
 def _next_cell_state(g, row, col):
@@ -45,7 +32,9 @@ def next_gen(g):
 
 
 if __name__ == '__main__':
-    g = seed(10)
+    init = random.seed(10)
+    # init = gun.gun()
+    g = init
     for _ in range(500):
         print(g)
         sleep(1)

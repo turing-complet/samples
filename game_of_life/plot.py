@@ -1,22 +1,26 @@
 import matplotlib.pyplot as plt
-from game import seed, next_gen
+from matplotlib.animation import FuncAnimation
+from game import next_gen
+from patterns import random, gun
 
-plt.ion()
+
+# g = random.seed(80)
+g = gun.gun()
+
+
+def generate(n):
+    global g
+    g = next_gen(g)
+    return g
+
+
 fig = plt.figure()
+im = plt.imshow(generate(0))
 
 
-def game_of_life(size):
-    g = seed(size)
-
-    im = plt.imshow(g)
-    while True:
-        g = next_gen(g)
-        im.set_data(g)
-        fig.canvas.draw()
+def update(i):
+    im.set_data(generate(i))
 
 
-if __name__ == "__main__":
-    import sys
-
-    grid_size = int(sys.argv[1])
-    game_of_life(int(grid_size))
+anim = FuncAnimation(fig, update)
+plt.show()
