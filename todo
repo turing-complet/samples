@@ -1,0 +1,5 @@
+ln -s /run/user/1001/keybase/kbfs/private/turingcomplet/TODO ~/TODO
+echo "#!/bin/bash" >> todo
+echo "vim ~/TODO" >> todo
+chmod +x todo
+sudo mv todo /usr/local/bin/

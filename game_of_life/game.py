@@ -14,6 +14,7 @@ def _next_cell_state(g, row, col):
         return 1
     return 0
 
+
 def next_gen(g):
     """
     Proceed to the next generation. Takes a numpy array and returns a new one
@@ -24,14 +25,14 @@ def next_gen(g):
         new_grid (np.array): the next iteration
     """
     new_grid = np.zeros(g.shape, dtype=int)
-    for (i,j), _ in np.ndenumerate(g[1:-1, 1:-1]):
-        if i in(0, g.shape[1] - 1) or j in (0, g.shape[0]-1):
+    for (i, j), _ in np.ndenumerate(g[1:-1, 1:-1]):
+        if i in (0, g.shape[1] - 1) or j in (0, g.shape[0] - 1):
             continue
-        new_grid[i,j] = _next_cell_state(g, i, j)
+        new_grid[i, j] = _next_cell_state(g, i, j)
     return new_grid
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     init = random.seed(10)
     # init = gun.gun()
     g = init
