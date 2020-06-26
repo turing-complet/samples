@@ -11,9 +11,9 @@ white_sq = "□"
 def term_plot(g):
     for (i, j), cell in np.ndenumerate(g[1:-1, 1:-1]):
         if cell == 0:
-            print(black_sq, end="", flush=True)
+            print(black_sq, end=" ", flush=True)
         else:
-            print(white_sq, end="", flush=True)
+            print(white_sq, end=" ", flush=True)
         if j == g.shape[1] - 3:
             print("")
             if i == g.shape[0] - 3:
@@ -25,5 +25,5 @@ if __name__ == "__main__":
     g = init
     for _ in range(500):
         term_plot(g)
-        sleep(0.5)
+        sleep(0.1)
         g = next_gen(g)
