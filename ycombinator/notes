@@ -1,0 +1,46 @@
+
+TODO:
+make shortcut for "lambda"
+
+Y = λf.(λx.f(x x))(λx.f(x x))
+
+0 := λf.λx.x
+1 := λf.λx.f x
+2 := λf.λx.f (f x)
+3 := λf.λx.f (f (f x))
+
+M N P may be written instead of ((M N) P)
+body of an abstraction extends as far right as possible: λx.M N means λx.(M N) and not (λx.M) N.
+λx.λy.λz.N is abbreviated as λxyz.N
+
+TRUE := λx.λy.x
+FALSE := λx.λy.y
+
+lambda x, y: return x
+lambda x: lambda y: return x
+def fun(x):
+    def fun(y):
+        return x
+    return fun
+
+def bTrue(x, y):
+    p = fun(x)
+    return p(y)
+
+AND := λp.λq.p q p
+OR := λp.λq.p p q
+NOT := λp.p FALSE TRUE
+IFTHENELSE := λp.λa.λb.p a b
+
+An example of such a higher order function might be f(g) = 2 * g. So, if originally you had g(x) = x + 3, 
+then f(g) is the function that takes x and maps it to 2x + 6: (f(g))(x) = 2x + 6.
+
+So if we have some kind of higher order function like this, we can use the Y combinator to find a fixed point for it.
+
+First, we'll define little y: y(g) = f(g(g)). Note that little y is dependent on f (we might write it as y(g; f) = f(g(g)) to make that clear).
+
+Then big Y is: Y(f) = y(y).
+
+adventures in FP:
+39:22
+45:00
